@@ -1,6 +1,9 @@
 import { useMachine } from '@xstate/react';
 import { appMachine, MachineContext } from './state';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Booklist from '././components/Booklist';
+import Addbook from '././components/Addbook';
+import Header from '././components/Header';
 
 function App() {
   const [currentMachine, sendToMachine] = useMachine(appMachine);
@@ -8,8 +11,17 @@ function App() {
   return (
     <MachineContext.Provider value={[currentMachine, sendToMachine]}>
       <div className="App w-10/12 m-auto p-8">
-        <h2 className="text-2xl text-left mb-6">Welcome to our book inventory.</h2>
-        <Booklist/>
+        <BrowserRouter>
+          <Header />
+          <Switch>
+            <Route exact path="/">
+              <Booklist />
+            </Route>
+            <Route path="/addbooks">
+              <Addbook />
+            </Route>
+          </Switch>
+        </BrowserRouter>
       </div>
     </MachineContext.Provider>
   );

@@ -15,7 +15,6 @@ const fetchAllBooks = async () => {
       }),
     }
   ).then((r) => r.json());
-  // console.log(res);
   return res;
 };
 
