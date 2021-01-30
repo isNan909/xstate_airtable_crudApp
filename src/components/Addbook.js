@@ -1,10 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useContext } from 'react';
+import { MachineContext } from '../state/index';
 import { Link } from 'react-router-dom';
 
+// eslint-disable-next-line
 function Addbook({}) {
-  useEffect(() => {
-    console.log('useeffect triggered..');
-  }, []);
+  const [machine, sendToMachine] = useContext(MachineContext);
+  console.log(machine);
+
+  const handleSubmit = () => (e) => {
+    e.preventDefault();
+    sendToMachine('ADD_A_BOOK');
+    console.log(submit);
+  };
 
   return (
     <div>
@@ -12,9 +19,12 @@ function Addbook({}) {
         <div className="max-w-md w-full">
           <div>
             <div>
-              <Link to="/" class="text-indigo-500 inline-flex items-center font-bold">
+              <Link
+                to="/"
+                className="text-indigo-500 inline-flex items-center font-bold"
+              >
                 <svg
-                  class="w-6 h-6 mr-2"
+                  className="w-6 h-6 mr-2"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -34,7 +44,7 @@ function Addbook({}) {
               Fill details to add new book.
             </h4>
           </div>
-          <form className="mt-10 space-y-6" action="#" method="POST">
+          <form className="mt-10 space-y-6" onSubmit={handleSubmit}>
             <input type="hidden" name="remember" value="true" />
             <div className="rounded-md shadow-sm">
               <div className="mb-3">
@@ -99,10 +109,12 @@ function Addbook({}) {
                   <option default value="select one">
                     select one
                   </option>
-                  <option>SM</option>
-                  <option>M</option>
-                  <option>L</option>
-                  <option>XL</option>
+                  <option>Psychology</option>
+                  <option>Related</option>
+                  <option>Others</option>
+                  <option>Research</option>
+                  <option>Testing</option>
+                  <option>Usability</option>
                 </select>
                 <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
                   <svg
@@ -124,6 +136,7 @@ function Addbook({}) {
               <button
                 type="submit"
                 className="group relative w-full flex font-bold justify-center py-2 px-10 border border-transparent text-sm rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                onClick={(e) => sendToMachine('ADD_A_BOOK')}
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3"></span>
                 Add My Book
@@ -132,6 +145,13 @@ function Addbook({}) {
           </form>
         </div>
       </div>
+      {machine.matches('ready') && <span>sending form</span>}
+      {machine.matches('sucess') && (
+        <span>You have sucessfully added an employee</span>
+      )}
+      {machine.matches('failed') && (
+        <span>You have sucessfully added an employee</span>
+      )}
     </div>
   );
 }

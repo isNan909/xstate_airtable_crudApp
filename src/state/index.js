@@ -1,5 +1,6 @@
 import { createContext } from 'react';
 import { assign, Machine } from 'xstate';
+import { addbookMachine } from './addbook';
 
 export const MachineContext = createContext();
 
@@ -10,7 +11,7 @@ const fetchAllBooks = async () => {
       method: 'GET',
       headers: new Headers({
         // API key should be confidential
-        Authorization: 'Bearer keyWR29lNpjiJJ2R0', 
+        Authorization: 'Bearer keyWR29lNpjiJJ2R0',
         'Content-Type': 'application/json',
       }),
     }
@@ -27,6 +28,7 @@ export const appMachine = Machine({
   },
   states: {
     init: {},
+    addbookMachine,
     list: {
       states: {
         loading: {
