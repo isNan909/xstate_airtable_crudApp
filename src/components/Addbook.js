@@ -24,7 +24,7 @@ function Addbook({}) {
     const Name = book.current.value;
     const Author = authorName.current.value;
     const Published = date.current.value;
-    const Currency = price.current.value;
+    const Currency = parseFloat(price.current.value);
     const Category = category.current.value;
 
     const payload = {
@@ -34,6 +34,8 @@ function Addbook({}) {
         },
       ],
     };
+
+    console.log(payload);
 
     const res = await fetch(
       'https://api.airtable.com/v0/appPI51O1H51vqeco/Books',
@@ -82,7 +84,7 @@ function Addbook({}) {
               Fill details to add new book.
             </h4>
           </div>
-          <form className="mt-10 space-y-6">
+          <form className="mt-10 space-y-6" onSubmit="return false">
             <input type="hidden" name="remember" value="true" />
             <div className="rounded-md shadow-sm">
               <div className="mb-3">
@@ -94,7 +96,6 @@ function Addbook({}) {
                   name="book"
                   type="text"
                   autoComplete="bookname"
-                  required
                   className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   placeholder="book name"
                   ref={book}
@@ -109,7 +110,6 @@ function Addbook({}) {
                   name="author"
                   type="text"
                   autoComplete="authorname"
-                  required
                   className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   placeholder="author name"
                   ref={authorName}
@@ -124,7 +124,6 @@ function Addbook({}) {
                   name="date"
                   type="date"
                   autoComplete="published date"
-                  required
                   className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   placeholder="published date"
                   ref={date}
@@ -137,9 +136,8 @@ function Addbook({}) {
                 <input
                   id="currency"
                   name="currency"
-                  type="number"
+                  type="text"
                   autoComplete="currencyname"
-                  required
                   className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   placeholder="price of book"
                   ref={price}
@@ -178,14 +176,11 @@ function Addbook({}) {
             </div>
 
             <div>
-              <button
-                type="submit"
-                className="group relative w-full flex font-bold justify-center py-2 px-10 border border-transparent text-sm rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              <input
+                type="button"
+                value="Click me"
                 onClick={() => sendToAddBooks({ type: 'FETCH' })}
-              >
-                <span className="absolute left-0 inset-y-0 flex items-center pl-3"></span>
-                Add My Book
-              </button>
+              ></input>
             </div>
           </form>
         </div>
