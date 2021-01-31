@@ -5,10 +5,10 @@ import { useMachine } from '@xstate/react';
 
 // eslint-disable-next-line
 function Addbook({}) {
-  const [addingBooks, sendToAddBooks] = useMachine(addbookMachine, {
+  const [sendBooks, sendToAddBooks] = useMachine(addbookMachine, {
     actions: {
-      sendData: (ctx, event) => {
-        console.log('send the request', addingBooks);
+      addingBooks: (ctx, event) => {
+        console.log('send the request');
       },
     },
   });
@@ -144,11 +144,11 @@ function Addbook({}) {
           </form>
         </div>
       </div>
-      {addingBooks.matches('idle') && <span>send the form</span>}
-      {addingBooks.matches('sucess') && (
+      {sendBooks.matches('idle') && <span>send the form</span>}
+      {sendBooks.matches('sucess') && (
         <span>You have sucessfully added an employee</span>
       )}
-      {addingBooks.matches('failed') && (
+      {sendBooks.matches('failed') && (
         <span>You have sucessfully added an employee</span>
       )}
     </div>
