@@ -1,17 +1,56 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { addbookMachine } from '../state/addbook';
 import { useMachine } from '@xstate/react';
 
 // eslint-disable-next-line
 function Addbook({}) {
+  const book = useRef();
+  const authorName = useRef();
+  const date = useRef();
+  const price = useRef();
+  const category = useRef();
+
   const [sendBooks, sendToAddBooks] = useMachine(addbookMachine, {
     actions: {
       addingBooks: (ctx, event) => {
-        console.log('send the request');
+        console.log('send the request', ctx.values);
+        addAbook();
       },
     },
   });
+
+  const addAbook = async () => {
+    const Name = book.current.value;
+    const Author = authorName.current.value;
+    const Published = date.current.value;
+    const Currency = price.current.value;
+    const Category = category.current.value;
+
+    const payload = {
+      records: [
+        {
+          fields: { Name, Author, Published, Currency, Category },
+        },
+      ],
+    };
+
+    const res = await fetch(
+      'https://api.airtable.com/v0/appPI51O1H51vqeco/Books',
+      {
+        method: 'POST',
+        headers: new Headers({
+          // API key should be confidential
+          Authorization: 'Bearer keyWR29lNpjiJJ2R0',
+          'Content-Type': 'application/json',
+        }),
+        body: JSON.stringify(payload),
+      }
+    ).then((r) => r.json());
+    console.log(res);
+    return res;
+  };
+
   return (
     <div>
       <div className="min-h-screen flex items-left justify-left">
@@ -58,6 +97,7 @@ function Addbook({}) {
                   required
                   className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   placeholder="book name"
+                  ref={book}
                 />
               </div>
               <div className="mb-3">
@@ -72,6 +112,7 @@ function Addbook({}) {
                   required
                   className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   placeholder="author name"
+                  ref={authorName}
                 />
               </div>
               <div className="mb-3">
@@ -86,6 +127,7 @@ function Addbook({}) {
                   required
                   className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   placeholder="published date"
+                  ref={date}
                 />
               </div>
               <div className="mb-3">
@@ -100,11 +142,15 @@ function Addbook({}) {
                   required
                   className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   placeholder="price of book"
+                  ref={price}
                 />
               </div>
 
               <div className="relative">
-                <select className="rounded border appearance-none border-gray-300 py-2 w-full placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10 sm:text-sm">
+                <select
+                  className="rounded border appearance-none border-gray-300 py-2 w-full placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10 sm:text-sm"
+                  ref={category}
+                >
                   <option default value="select one">
                     select one
                   </option>
