@@ -1,18 +1,17 @@
-import React, { useContext } from 'react';
-import { MachineContext } from '../state/index';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { addbookMachine } from '../state/addbook';
+import { useMachine } from '@xstate/react';
 
 // eslint-disable-next-line
 function Addbook({}) {
-  const [machine, sendToMachine] = useContext(MachineContext);
-  console.log(machine);
-
-  const handleSubmit = () => (e) => {
-    e.preventDefault();
-    sendToMachine('ADD_A_BOOK');
-    console.log(submit);
-  };
-
+  const [addingBooks, sendToAddBooks] = useMachine(addbookMachine, {
+    actions: {
+      sendData: (ctx, event) => {
+        console.log('send the request', addingBooks);
+      },
+    },
+  });
   return (
     <div>
       <div className="min-h-screen flex items-left justify-left">
@@ -44,7 +43,7 @@ function Addbook({}) {
               Fill details to add new book.
             </h4>
           </div>
-          <form className="mt-10 space-y-6" onSubmit={handleSubmit}>
+          <form className="mt-10 space-y-6">
             <input type="hidden" name="remember" value="true" />
             <div className="rounded-md shadow-sm">
               <div className="mb-3">
@@ -136,7 +135,7 @@ function Addbook({}) {
               <button
                 type="submit"
                 className="group relative w-full flex font-bold justify-center py-2 px-10 border border-transparent text-sm rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                onClick={(e) => sendToMachine('ADD_A_BOOK')}
+                onClick={() => sendToAddBooks({ type: 'FETCH' })}
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3"></span>
                 Add My Book
@@ -145,11 +144,11 @@ function Addbook({}) {
           </form>
         </div>
       </div>
-      {machine.matches('ready') && <span>sending form</span>}
-      {machine.matches('sucess') && (
+      {addingBooks.matches('idle') && <span>send the form</span>}
+      {addingBooks.matches('sucess') && (
         <span>You have sucessfully added an employee</span>
       )}
-      {machine.matches('failed') && (
+      {addingBooks.matches('failed') && (
         <span>You have sucessfully added an employee</span>
       )}
     </div>
