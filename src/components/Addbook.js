@@ -84,7 +84,7 @@ function Addbook({}) {
               Fill details to add new book.
             </h4>
           </div>
-          <form className="mt-10 space-y-6" onSubmit="return false">
+          <form className="mt-10 space-y-6">
             <input type="hidden" name="remember" value="true" />
             <div className="rounded-md shadow-sm">
               <div className="mb-3">
