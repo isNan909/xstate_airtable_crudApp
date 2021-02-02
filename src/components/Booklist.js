@@ -53,9 +53,11 @@ function Booklist({}) {
           </div>
         )}
       </section>
-      {machine.matches('list.failed') && (
-        <span>Data cannot be loaded {error.toString()}</span>
-      )}
+      <div>
+        {machine.matches('list.failed') && (
+          <span>Data cannot be loaded {error.toString()}</span>
+        )}
+      </div>
     </>
   );
 }

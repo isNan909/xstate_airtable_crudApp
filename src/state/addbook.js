@@ -21,16 +21,8 @@ export const addbookMachine = Machine(
           REJECT: { target: 'failed', actions: ['setError'] },
         },
       },
-      sucess: {
-        on: {
-          FETCH: 'adding',
-        },
-      },
-      failed: {
-        on: {
-          FETCH: 'adding',
-        },
-      },
+      sucess: {},
+      failed: {},
     },
   },
   {

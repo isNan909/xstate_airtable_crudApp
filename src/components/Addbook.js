@@ -13,29 +13,25 @@ function Addbook({}) {
 
   const [sendBooks, sendToAddBooks] = useMachine(addbookMachine, {
     actions: {
-      addingBooks: (ctx, event) => {
-        console.log('send the request', ctx.values);
+      addingBooks: () => {
+        console.log(sendBooks);
         addAbook();
       },
     },
   });
 
   const addAbook = async () => {
+    sendToAddBooks('adding');
     const Name = book.current.value;
     const Author = authorName.current.value;
     const Published = date.current.value;
     const Currency = parseFloat(price.current.value);
     const Category = category.current.value;
 
-    const payload = {
-      records: [
-        {
-          fields: { Name, Author, Published, Currency, Category },
-        },
-      ],
-    };
+    const payload = { Name, Author, Published, Currency, Category };
 
-    console.log(payload);
+    const sendBooks = { ...addbookMachine.context.values, payload };
+    console.log(sendBooks);
 
     const res = await fetch(
       'https://api.airtable.com/v0/appPI51O1H51vqeco/Books',
@@ -46,10 +42,13 @@ function Addbook({}) {
           Authorization: 'Bearer keyWR29lNpjiJJ2R0',
           'Content-Type': 'application/json',
         }),
-        body: JSON.stringify(payload),
+        body: sendBooks.payload,
       }
-    ).then((r) => r.json());
-    console.log(res);
+    )
+      .then((r) => r.json())
+      .then(sendToAddBooks({ type: 'sucess' }))
+      .catch(console.log('error'));
+    console.log(sendBooks.payload);
     return res;
   };
 
@@ -189,9 +188,8 @@ function Addbook({}) {
       {sendBooks.matches('sucess') && (
         <span>You have sucessfully added an employee</span>
       )}
-      {sendBooks.matches('failed') && (
-        <span>You have sucessfully added an employee</span>
-      )}
+      {sendBooks.matches('adding') && <span>Adding new Employee ...</span>}
+      {sendBooks.matches('failed') && <span>Sorry not added an employee</span>}
     </div>
   );
 }
