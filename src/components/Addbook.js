@@ -11,17 +11,17 @@ function Addbook({}) {
   const price = useRef();
   const category = useRef();
 
-  const [sendBooks, sendToAddBooks] = useMachine(addbookMachine, {
+  const [current, send] = useMachine(addbookMachine, {
     actions: {
       addingBooks: () => {
-        console.log(sendBooks);
+        console.log(current);
         addAbook();
       },
     },
   });
 
   const addAbook = async () => {
-    sendToAddBooks('adding');
+    send('adding');
     const Name = book.current.value;
     const Author = authorName.current.value;
     const Published = date.current.value;
@@ -30,8 +30,8 @@ function Addbook({}) {
 
     const payload = { Name, Author, Published, Currency, Category };
 
-    const sendBooks = { ...addbookMachine.context.values, payload };
-    console.log(sendBooks);
+    const current = { ...addbookMachine.context.values, payload };
+    console.log(current);
 
     const res = await fetch(
       'https://api.airtable.com/v0/appPI51O1H51vqeco/Books',
@@ -42,13 +42,13 @@ function Addbook({}) {
           Authorization: 'Bearer keyWR29lNpjiJJ2R0',
           'Content-Type': 'application/json',
         }),
-        body: sendBooks.payload,
+        body: current.payload,
       }
     )
       .then((r) => r.json())
-      .then(sendToAddBooks({ type: 'sucess' }))
+      .then(send('sucess'))
       .catch(console.log('error'));
-    console.log(sendBooks.payload);
+    console.log(current.payload);
     return res;
   };
 
@@ -178,18 +178,18 @@ function Addbook({}) {
               <input
                 type="button"
                 value="Click me"
-                onClick={() => sendToAddBooks({ type: 'FETCH' })}
+                onClick={() => send('FETCH')}
               ></input>
             </div>
           </form>
         </div>
       </div>
-      {sendBooks.matches('idle') && <span>send the form</span>}
-      {sendBooks.matches('sucess') && (
+      {current.matches('idle') && <span>send the form</span>}
+      {current.matches('sucess') && (
         <span>You have sucessfully added an employee</span>
       )}
-      {sendBooks.matches('adding') && <span>Adding new Employee ...</span>}
-      {sendBooks.matches('failed') && <span>Sorry not added an employee</span>}
+      {current.matches('adding') && <span>Adding new Employee ...</span>}
+      {current.matches('failed') && <span>Sorry not added an employee</span>}
     </div>
   );
 }
