@@ -45,9 +45,7 @@ function Addbook({}) {
         body: current.payload,
       }
     )
-      .then((r) => r.json())
-      .then(send('sucess'))
-      .catch(console.log('error'));
+      .catch(console.log('error'), send('REJECT'));
     console.log(current.payload);
     return res;
   };
@@ -184,6 +182,8 @@ function Addbook({}) {
           </form>
         </div>
       </div>
+      {current.value}
+      <br />
       {current.matches('idle') && <span>send the form</span>}
       {current.matches('sucess') && (
         <span>You have sucessfully added an employee</span>
