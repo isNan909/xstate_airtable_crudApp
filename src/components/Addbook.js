@@ -30,30 +30,35 @@ function Addbook({}) {
 
     const payload = { Name, Author, Published, Currency, Category };
     const current = { ...addbookMachine.context.values, payload };
-    const obj = JSON.stringify(current.payload);
-
-    const res = await fetch(
-      'https://api.airtable.com/v0/appPI51O1H51vqeco/Books',
-      {
-        method: 'POST',
-        headers: new Headers({
-          // API key should be confidential
-          Authorization: 'Bearer keyWR29lNpjiJJ2R0',
-          'Content-Type': 'application/json',
-        }),
-        body: {
-          records: [
-            {
-              fields: {
-                obj,
-              },
-            },
-          ],
+    const obj = current.payload;
+    const addRecord = {
+      records: [
+        {
+          fields: {
+            ...obj,
+          },
         },
-      }
-    ).catch(console.log('error'), send('REJECT'));
-    console.log(obj);
-    return res;
+      ],
+    };
+    try {
+      const res = await fetch(
+        'https://api.airtable.com/v0/appPI51O1H51vqeco/Books',
+        {
+          method: 'POST',
+          headers: new Headers({
+            // API key should be confidential
+            Authorization: 'Bearer keyWR29lNpjiJJ2R0',
+            'Content-Type': 'application/json',
+          }),
+          body: JSON.stringify(addRecord),
+        }
+      )
+      send('RESOLVE')
+      return res;
+    } catch {
+      send('REJECT')
+      console.log('error');
+    }
   };
 
   return (
