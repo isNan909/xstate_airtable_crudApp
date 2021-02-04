@@ -21,8 +21,7 @@ export const addbookMachine = Machine(
           REJECT: { target: 'failed', actions: ['setError'] },
         },
       },
-      sucess: {
-      },
+      sucess: {},
       failed: {
         on: {
           FETCH: 'adding',
@@ -32,10 +31,10 @@ export const addbookMachine = Machine(
   },
   {
     actions: {
-      setValues: assign((ctx, event) => ({
+      setValues: assign((_ctx, event) => ({
         values: event.values,
       })),
-      setError: assign((ctx, event) => ({
+      setError: assign((_ctx, event) => ({
         error: event.error,
       })),
     },

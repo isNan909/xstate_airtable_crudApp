@@ -14,7 +14,7 @@ function Addbook({}) {
   const [current, send] = useMachine(addbookMachine, {
     actions: {
       addingBooks: () => {
-        console.log(current);
+        // console.log(current);
         addAbook();
       },
     },
@@ -29,9 +29,8 @@ function Addbook({}) {
     const Category = category.current.value;
 
     const payload = { Name, Author, Published, Currency, Category };
-
     const current = { ...addbookMachine.context.values, payload };
-    console.log(current);
+    const obj = JSON.stringify(current.payload);
 
     const res = await fetch(
       'https://api.airtable.com/v0/appPI51O1H51vqeco/Books',
@@ -42,11 +41,18 @@ function Addbook({}) {
           Authorization: 'Bearer keyWR29lNpjiJJ2R0',
           'Content-Type': 'application/json',
         }),
-        body: current.payload,
+        body: {
+          records: [
+            {
+              fields: {
+                obj,
+              },
+            },
+          ],
+        },
       }
-    )
-      .catch(console.log('error'), send('REJECT'));
-    console.log(current.payload);
+    ).catch(console.log('error'), send('REJECT'));
+    console.log(obj);
     return res;
   };
 
