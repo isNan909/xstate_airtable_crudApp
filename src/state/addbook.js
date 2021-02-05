@@ -1,42 +1,47 @@
-import { Machine, assign } from 'xstate';
+import { assign } from 'xstate';
 
-export const addbookMachine = Machine(
-  {
-    id: 'addBooks',
-    initial: 'idle',
-    context: {
-      values: {},
-      error: {},
+const addTheBooks = async (context, event) => {
+  console.log(context, 'hi');
+  // console.log(payload.values);
+  // const res = await fetch(
+  //   'https://api.airtable.com/v0/appPI51O1H51vqeco/Books',
+  //   {
+  //     method: 'POST',
+  //     headers: new Headers({
+  //       // API key should be confidential
+  //       Authorization: 'Bearer keyWR29lNpjiJJ2R0',
+  //       'Content-Type': 'application/json',
+  //     }),
+  //     body: JSON.stringify(payload),
+  //   }
+  // )
+  // return res
+};
+
+export const addbookMachine = {
+  id: 'addBooks',
+  initial: 'idle',
+  states: {
+    idle: {
+      on: {
+        ADD_BOOKS: 'adding',
+      },
     },
-    states: {
-      idle: {
-        on: {
-          FETCH: 'adding',
+    adding: {
+      invoke: {
+        id: 'addTheBooks',
+        src: addTheBooks,
+        onDone: {
+          target: 'success',
+          actions: assign({ fields: (context, event) => event.data }),
         },
-      },
-      adding: {
-        entry: ['addingBooks'],
-        on: {
-          RESOLVE: { target: 'sucess', actions: ['setValues'] },
-          REJECT: { target: 'failed', actions: ['setError'] },
-        },
-      },
-      sucess: {},
-      failed: {
-        on: {
-          FETCH: 'adding',
+        onError: {
+          target: 'fail',
+          actions: assign({ error: (context, event) => event.data }),
         },
       },
     },
+    success: {},
+    fail: {},
   },
-  {
-    actions: {
-      setValues: assign((_ctx, event) => ({
-        values: event.values,
-      })),
-      setError: assign((_ctx, event) => ({
-        error: event.error,
-      })),
-    },
-  }
-);
+};

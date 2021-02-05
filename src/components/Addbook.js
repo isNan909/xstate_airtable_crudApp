@@ -1,63 +1,24 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { addbookMachine } from '../state/addbook';
-import { useMachine } from '@xstate/react';
+import { MachineContext } from '../state/index';
 
-// eslint-disable-next-line
+
+// eslint-disable-next-line 
 function Addbook({}) {
   const book = useRef();
   const authorName = useRef();
   const date = useRef();
   const price = useRef();
   const category = useRef();
-
-  const [current, send] = useMachine(addbookMachine, {
-    actions: {
-      addingBooks: () => {
-        // console.log(current);
-        addAbook();
-      },
-    },
-  });
+  const [machine, sendToMachine] = useContext(MachineContext);
 
   const addAbook = async () => {
-    send('adding');
     const Name = book.current.value;
     const Author = authorName.current.value;
     const Published = date.current.value;
     const Currency = parseFloat(price.current.value);
     const Category = category.current.value;
-
-    const payload = { Name, Author, Published, Currency, Category };
-    const current = { ...addbookMachine.context.values, payload };
-    const obj = current.payload;
-    const addRecord = {
-      records: [
-        {
-          fields: {
-            ...obj,
-          },
-        },
-      ],
-    };
-    try {
-      const res = await fetch(
-        'https://api.airtable.com/v0/appPI51O1H51vqeco/Books',
-        {
-          method: 'POST',
-          headers: new Headers({
-            // API key should be confidential
-            Authorization: 'Bearer keyWR29lNpjiJJ2R0',
-            'Content-Type': 'application/json',
-          }),
-          body: JSON.stringify(addRecord),
-        }
-      ).then(send('RESOLVE'))
-      return res;
-    } catch {
-      send('REJECT')
-      console.log('error');
-    }
+    sendToMachine('ADD_BOOKS', { Name, Author, Published, Currency, Category });
   };
 
   return (
@@ -186,20 +147,20 @@ function Addbook({}) {
               <input
                 type="button"
                 value="Click me"
-                onClick={() => send('FETCH')}
+                onClick={addAbook}
               ></input>
             </div>
           </form>
         </div>
       </div>
-      {current.value}
+      {/* {machine.value} */}
       <br />
-      {current.matches('idle') && <span>send the form</span>}
-      {current.matches('sucess') && (
+      {machine.matches('idle') && <span>send the form</span>}
+      {machine.matches('sucess') && (
         <span>You have sucessfully added an employee</span>
       )}
-      {current.matches('adding') && <span>Adding new Employee ...</span>}
-      {current.matches('failed') && <span>Sorry not added an employee</span>}
+      {machine.matches('adding') && <span>Adding new Employee ...</span>}
+      {machine.matches('failed') && <span>Sorry not added an employee</span>}
     </div>
   );
 }

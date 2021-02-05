@@ -3,7 +3,7 @@ import { assign, Machine } from 'xstate';
 import { addbookMachine } from './addbook';
 
 export const MachineContext = createContext();
- 
+
 const fetchAllBooks = async () => {
   const res = await fetch(
     'https://api.airtable.com/v0/appPI51O1H51vqeco/Books?maxRecords=3&view=Grid%20view',
@@ -25,6 +25,7 @@ export const appMachine = Machine({
   context: {
     books: [],
     error: undefined,
+    fields: '',
   },
   states: {
     init: {},
@@ -53,6 +54,9 @@ export const appMachine = Machine({
   on: {
     LOAD_BOOKS: {
       target: 'list.loading',
+    },
+    ADD_BOOKS: {
+      target: 'addbookMachine.adding',
     },
   },
 });
