@@ -152,7 +152,7 @@ function Addbook({}) {
       {machine.matches('addbookMachine.addNew') && <span>add your books</span>}
       {machine.matches('addbookMachine.success') && <span>added books</span>}
       {machine.matches('addbookMachine.adding') && <span>Adding new Employee ...</span>}
-      {machine.matches('addbookMachine.fail') && <span>Sorry not added an employee</span>}
+      {machine.matches('addbookMachine.failed') && <span>Sorry not added an employee</span>}
     </div>
   );
 }

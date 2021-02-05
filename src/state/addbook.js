@@ -1,6 +1,6 @@
 import { assign } from 'xstate';
 
-const addTheBooks = async (context, event) => {
+const addTheBooks = async (_context, event) => {
   const { Name, Author, Published, Currency, Category } = event;
   const formater = {
     records: [
@@ -21,7 +21,6 @@ const addTheBooks = async (context, event) => {
       body: JSON.stringify(formater),
     }
   );
-  console.log(res, context);
   return res;
 };
 
@@ -39,12 +38,12 @@ export const addbookMachine = {
           actions: assign({ fields: (_context, event) => event.data }),
         },
         onError: {
-          target: 'fail',
+          target: 'failed',
           actions: assign({ error: (_context, event) => event.data }),
         },
       },
     },
     success: {},
-    fail: {},
+    failed: {},
   },
 };
