@@ -1,21 +1,28 @@
 import { assign } from 'xstate';
 
-const addTheBooks = async (context, event) => {
-  console.log(context, 'hi');
-  // console.log(payload.values);
-  // const res = await fetch(
-  //   'https://api.airtable.com/v0/appPI51O1H51vqeco/Books',
-  //   {
-  //     method: 'POST',
-  //     headers: new Headers({
-  //       // API key should be confidential
-  //       Authorization: 'Bearer keyWR29lNpjiJJ2R0',
-  //       'Content-Type': 'application/json',
-  //     }),
-  //     body: JSON.stringify(payload),
-  //   }
-  // )
-  // return res
+const addTheBooks = async (_context, event) => {
+  const { Name, Author, Published, Currency, Category } = event;
+  const formater = {
+    records: [
+      {
+        fields: { Name, Author, Published, Currency, Category },
+      },
+    ],
+  };
+  const res = await fetch(
+    'https://api.airtable.com/v0/appPI51O1H51vqeco/Books',
+    {
+      method: 'POST',
+      headers: new Headers({
+        // API key should be confidential
+        Authorization: 'Bearer keyWR29lNpjiJJ2R0',
+        'Content-Type': 'application/json',
+      }),
+      body: JSON.stringify(...formater),
+    }
+  );
+  console.log(res);
+  return res;
 };
 
 export const addbookMachine = {
