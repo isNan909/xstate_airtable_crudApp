@@ -52,8 +52,7 @@ function Addbook({}) {
           }),
           body: JSON.stringify(addRecord),
         }
-      )
-      send('RESOLVE')
+      ).then(send('RESOLVE'))
       return res;
     } catch {
       send('REJECT')
