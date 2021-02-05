@@ -1,6 +1,7 @@
 import { createContext } from 'react';
 import { assign, Machine } from 'xstate';
 import { addbookMachine } from './addbook';
+import { removebookMachine } from './removebook';
 
 export const MachineContext = createContext();
 
@@ -30,6 +31,7 @@ export const appMachine = Machine({
   states: {
     init: {},
     addbookMachine,
+    removebookMachine,
     list: {
       states: {
         loading: {
@@ -38,11 +40,11 @@ export const appMachine = Machine({
             src: fetchAllBooks,
             onDone: {
               target: 'success',
-              actions: assign({ books: (context, event) => event.data }),
+              actions: assign({ books: (_context, event) => event.data }),
             },
             onError: {
               target: 'failed',
-              actions: assign({ error: (context, event) => event.data }),
+              actions: assign({ error: (_context, event) => event.data }),
             },
           },
         },
@@ -55,8 +57,11 @@ export const appMachine = Machine({
     LOAD_BOOKS: {
       target: 'list.loading',
     },
-    ADD_BOOKS: {
+    ADD_BOOK: {
       target: 'addbookMachine.adding',
+    },
+    DELETE_BOOK: {
+      target: 'removebookMachine.deleting',
     },
   },
 });

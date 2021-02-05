@@ -7,7 +7,7 @@ const addTheBooks = async (_context, event) => {
       {
         fields: { Name, Author, Published, Currency, Category },
       },
-    ],
+    ], 
   };
   const res = await fetch(
     'https://api.airtable.com/v0/appPI51O1H51vqeco/Books',
