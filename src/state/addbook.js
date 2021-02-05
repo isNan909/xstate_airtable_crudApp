@@ -1,6 +1,6 @@
 import { assign } from 'xstate';
 
-const addTheBooks = async (_context, event) => {
+const addTheBooks = async (context, event) => {
   const { Name, Author, Published, Currency, Category } = event;
   const formater = {
     records: [
@@ -18,33 +18,29 @@ const addTheBooks = async (_context, event) => {
         Authorization: 'Bearer keyWR29lNpjiJJ2R0',
         'Content-Type': 'application/json',
       }),
-      body: JSON.stringify(...formater),
+      body: JSON.stringify(formater),
     }
   );
-  console.log(res);
+  console.log(res, context);
   return res;
 };
 
 export const addbookMachine = {
   id: 'addBooks',
-  initial: 'idle',
+  initial: 'addNew',
   states: {
-    idle: {
-      on: {
-        ADD_BOOKS: 'adding',
-      },
-    },
+    addNew: {},
     adding: {
       invoke: {
         id: 'addTheBooks',
         src: addTheBooks,
         onDone: {
           target: 'success',
-          actions: assign({ fields: (context, event) => event.data }),
+          actions: assign({ fields: (_context, event) => event.data }),
         },
         onError: {
           target: 'fail',
-          actions: assign({ error: (context, event) => event.data }),
+          actions: assign({ error: (_context, event) => event.data }),
         },
       },
     },

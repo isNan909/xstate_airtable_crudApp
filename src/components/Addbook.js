@@ -2,8 +2,7 @@ import React, { useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { MachineContext } from '../state/index';
 
-
-// eslint-disable-next-line 
+// eslint-disable-next-line
 function Addbook({}) {
   const book = useRef();
   const authorName = useRef();
@@ -18,6 +17,7 @@ function Addbook({}) {
     const Published = date.current.value;
     const Currency = parseFloat(price.current.value);
     const Category = category.current.value;
+    console.log(machine.matches)
     sendToMachine('ADD_BOOKS', { Name, Author, Published, Currency, Category });
   };
 
@@ -144,23 +144,15 @@ function Addbook({}) {
             </div>
 
             <div>
-              <input
-                type="button"
-                value="Click me"
-                onClick={addAbook}
-              ></input>
+              <input type="button" value="Click me" onClick={addAbook}></input>
             </div>
           </form>
         </div>
       </div>
-      {/* {machine.value} */}
-      <br />
-      {machine.matches('idle') && <span>send the form</span>}
-      {machine.matches('sucess') && (
-        <span>You have sucessfully added an employee</span>
-      )}
-      {machine.matches('adding') && <span>Adding new Employee ...</span>}
-      {machine.matches('failed') && <span>Sorry not added an employee</span>}
+      {machine.matches('addbookMachine.addNew') && <span>add your books</span>}
+      {machine.matches('addbookMachine.success') && <span>added books</span>}
+      {machine.matches('addbookMachine.adding') && <span>Adding new Employee ...</span>}
+      {machine.matches('addbookMachine.fail') && <span>Sorry not added an employee</span>}
     </div>
   );
 }
