@@ -1,7 +1,7 @@
 import { assign } from 'xstate';
 
-const deleteBook = async (context, event, removeBook) => {
-  console.log('delete a book api call', context, event, removeBook);
+const deleteBook = async (context, event, props, id) => {
+  console.log('delete a book api call', context, event, props, id);
 };
 
 export const removebookMachine = {

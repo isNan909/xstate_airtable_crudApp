@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { MachineContext } from '../state/index';
 
-import { Delete } from './Deleteicon'
+import { Delete } from './Deleteicon';
 
 function Booklist({}) {
   const [machine, sendToMachine] = useContext(MachineContext);
@@ -13,9 +13,9 @@ function Booklist({}) {
     // eslint-disable-next-line
   }, []);
 
-  // const removeBook = async () => { 
-  //   sendToMachine('DELETE_BOOK');
-  // }
+  const removeBook = () => {
+    sendToMachine('DELETE_BOOK');
+  }
 
   return (
     <>
@@ -54,7 +54,7 @@ function Booklist({}) {
                 {b.fields.Author}
                 {b.fields.Currency}
                 {b.fields.Category}
-                <Delete id={b.id}/>
+                <Delete id={b.id} clickDelete={removeBook} />
               </div>
             ))}
           </div>

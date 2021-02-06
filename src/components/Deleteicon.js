@@ -1,10 +1,8 @@
 import React from 'react';
 
-const Delete = (props) => {
-  const bookID = props.id;
-  console.log({ bookID });
+const Delete = ({clickDelete}) => {
   return (
-    <span>
+    <span onClick={clickDelete}>
       <svg
         className="w-6 h-6"
         fill="none"
