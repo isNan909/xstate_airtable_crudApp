@@ -13,8 +13,9 @@ function Booklist({}) {
     // eslint-disable-next-line
   }, []);
 
-  const removeBook = () => {
-    sendToMachine('DELETE_BOOK');
+  const removeBook = (id) => {
+    sendToMachine('DELETE_BOOK', { id });
+    // console.log('send delete machine', id)
   }
 
   return (
@@ -54,7 +55,7 @@ function Booklist({}) {
                 {b.fields.Author}
                 {b.fields.Currency}
                 {b.fields.Category}
-                <Delete id={b.id} clickDelete={removeBook} />
+                <Delete clickDelete={() => removeBook(b.id)} />
               </div>
             ))}
           </div>

@@ -1,11 +1,11 @@
 import { assign } from 'xstate';
 
-const deleteBook = async (context, event, props, id) => {
-  console.log('delete a book api call', context, event, props, id);
+const deleteBook = async ({id}) => {
+  console.log(id + 'delete api call here!!');
 };
 
 export const removebookMachine = {
-  id: 'addBooks',
+  id: 'removebook',
   initial: 'start',
   states: {
     start: {},
@@ -15,7 +15,7 @@ export const removebookMachine = {
         src: deleteBook,
         onDone: {
           target: 'success',
-          actions: assign({ fields: (_context, event) => event.data }),
+          actions: assign({ list: (_context, event) => event.data }),
         },
         onError: {
           target: 'failed',

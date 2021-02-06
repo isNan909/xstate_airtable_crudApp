@@ -17,7 +17,6 @@ function Addbook({}) {
     const Published = date.current.value;
     const Currency = parseFloat(price.current.value);
     const Category = category.current.value;
-    console.log(machine.matches)
     sendToMachine('ADD_BOOK', { Name, Author, Published, Currency, Category });
   };
 

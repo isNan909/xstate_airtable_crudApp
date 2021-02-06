@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import { assign, Machine } from 'xstate';
 import { addbookMachine } from './addbook';
-import { removebookMachine } from './removebook';
+// import { removebookMachine } from './removebook';
 
 export const MachineContext = createContext();
 
@@ -16,7 +16,34 @@ const fetchAllBooks = async () => {
         'Content-Type': 'application/json',
       }),
     }
-  ).then((r) => r.json());
+  ).then((x) => x.json());
+  return res;
+};
+
+const deleteBook = async (props) => {
+  console.log(props.id + 'delete api call here!!');
+  const { id } = props;
+  const formater = {
+    records: [
+      {
+        fields: { id },
+      },
+    ],
+  };
+  console.log(formater);
+  const res = await fetch(
+    'https://api.airtable.com/v0/appPI51O1H51vqeco/Books/recCP7qqKSmeGNdP3',
+    {
+      method: 'DELETE',
+      headers: new Headers({
+        // API key should be confidential
+        Authorization: 'Bearer keyWR29lNpjiJJ2R0',
+        'Content-Type': 'application/json',
+      }),
+      body: JSON.stringify(formater),
+    }
+  ).then((x) => x.json());
+  console.log(res);
   return res;
 };
 
@@ -27,11 +54,32 @@ export const appMachine = Machine({
     books: [],
     error: undefined,
     fields: '',
+    removeId: '',
   },
   states: {
     init: {},
     addbookMachine,
-    removebookMachine,
+    remove: {
+      states: {
+        start: {},
+        deleting: {
+          invoke: {
+            id: 'deleteBook',
+            src: deleteBook,
+            onDone: {
+              target: 'success',
+              actions: assign({ list: (_context, event) => event.data }),
+            },
+            onError: {
+              target: 'failed',
+              actions: assign({ error: (_context, event) => event.data }),
+            },
+          },
+        },
+        success: {},
+        failed: {},
+      },
+    },
     list: {
       states: {
         loading: {
@@ -61,7 +109,10 @@ export const appMachine = Machine({
       target: 'addbookMachine.adding',
     },
     DELETE_BOOK: {
-      target: 'removebookMachine.deleting',
+      target: 'remove.deleting',
+      actions: assign((_ctx, evt) => ({
+        id: evt.id,
+      })),
     },
   },
 });
