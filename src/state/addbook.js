@@ -7,10 +7,10 @@ const addTheBooks = async (_context, event) => {
       {
         fields: { Name, Author, Published, Currency, Category },
       },
-    ], 
+    ],
   };
   const res = await fetch(
-    'https://api.airtable.com/v0/appPI51O1H51vqeco/Books',
+    'https://api.airtable.com/v0/appPI51O1H51vqeco/Bookss',
     {
       method: 'POST',
       headers: new Headers({
@@ -24,6 +24,16 @@ const addTheBooks = async (_context, event) => {
   return res;
 };
 
+const addingBook = (context, event) =>
+  new Promise(async (resolve, reject) => {
+    let result = await addTheBooks(context, event);
+    if (result.status === 200) {
+      resolve(result);
+    } else {
+      reject('employees');
+    }
+  });
+
 export const addbookMachine = {
   id: 'addBooks',
   initial: 'addNew',
@@ -31,8 +41,8 @@ export const addbookMachine = {
     addNew: {},
     adding: {
       invoke: {
-        id: 'addTheBooks',
-        src: addTheBooks,
+        id: 'addingBook',
+        src: addingBook,
         onDone: {
           target: 'success',
           actions: assign({ fields: (_context, event) => event.data }),
