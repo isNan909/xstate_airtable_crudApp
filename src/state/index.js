@@ -2,6 +2,7 @@ import { createContext } from 'react';
 import { assign, Machine } from 'xstate';
 import { addbookMachine } from './addbook';
 import { removebookMachine } from './removebook';
+import { fetchOneBookMachine } from './fetchsinglebook';
 
 import fetchAllBooks from '../api/fetchbooks';
 
@@ -20,6 +21,7 @@ export const appMachine = Machine({
     init: {},
     addbookMachine,
     removebookMachine,
+    fetchOneBookMachine,
     list: {
       states: {
         loading: {
@@ -50,6 +52,12 @@ export const appMachine = Machine({
     },
     DELETE_BOOK: {
       target: 'removebookMachine.deleting',
+      actions: assign((_ctx, evt) => ({
+        id: evt.id,
+      })),
+    },
+    FETCH_A_BOOK: {
+      target: 'fetchOneBookMachine.fetching',
       actions: assign((_ctx, evt) => ({
         id: evt.id,
       })),

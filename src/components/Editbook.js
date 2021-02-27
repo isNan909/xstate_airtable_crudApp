@@ -1,17 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { MachineContext } from '../state/index';
+
 import { Link } from 'react-router-dom';
 
 function Editbook(route) {
-  const currentBookId = route.match.params.id;
+  const [machine, sendToMachine] = useContext(MachineContext);
+  const id = route.match.params.id;
 
   useEffect(() => {
-    console.log(currentBookId);
-    // load books by id from XState
+    sendToMachine('FETCH_A_BOOK', { id });
+    // eslint-disable-next-line
   }, []);
 
-  const editedBook = () => {
-    // api request for edited books from XState
-  };
+  // const editedBook = () => {
+  //   // api request for edited books from XState
+  // };
 
   return (
     <div>

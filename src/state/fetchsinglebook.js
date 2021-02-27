@@ -1,9 +1,9 @@
 import { assign } from 'xstate';
-import deleteBook from '../api/deletebook';
+import fetchSingleBook from '../api/fetchsinglebook';
 
-const deletingBooks = (context, event) =>
+const getOneBook = (context, event) =>
   new Promise(async (resolve, reject) => {
-    let result = await deleteBook(context, event);
+    let result = await fetchSingleBook(context, event);
     console.log(result);
     if (result.status === 200) {
       resolve(result);
@@ -12,15 +12,15 @@ const deletingBooks = (context, event) =>
     }
   });
 
-export const removebookMachine = {
-  id: 'removebook',
+export const fetchOneBookMachine = {
+  id: 'fetchonebook',
   initial: 'start',
   states: {
     start: {},
-    deleting: {
+    fetching: {
       invoke: {
-        id: 'deletingBooks',
-        src: deletingBooks,
+        id: 'getOneBook',
+        src: getOneBook,
         onDone: {
           target: 'success',
           actions: assign({ list: (_context, event) => event.data }),
