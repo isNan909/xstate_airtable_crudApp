@@ -1,8 +1,16 @@
 import { assign } from 'xstate';
+import deleteBook from '../api/deletebook';
 
-const deleteBook = async ({id}) => {
-  console.log(id + 'delete api call here!!');
-};
+const deletingBooks = (context, event) =>
+  new Promise(async (resolve, reject) => {
+    let result = await deleteBook(context, event);
+    console.log(result);
+    if (result.status === 200) {
+      resolve(result);
+    } else {
+      reject('employees');
+    }
+  });
 
 export const removebookMachine = {
   id: 'removebook',
@@ -11,8 +19,8 @@ export const removebookMachine = {
     start: {},
     deleting: {
       invoke: {
-        id: 'deleteBook',
-        src: deleteBook,
+        id: 'deletingBooks',
+        src: deletingBooks,
         onDone: {
           target: 'success',
           actions: assign({ list: (_context, event) => event.data }),

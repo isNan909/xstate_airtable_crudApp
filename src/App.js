@@ -2,12 +2,13 @@ import { useMachine } from '@xstate/react';
 import { appMachine, MachineContext } from './state';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
+import Header from '././components/Header';
 import Booklist from '././components/Booklist';
 import Addbook from '././components/Addbook';
-import Header from '././components/Header';
+import Editbook from '././components/Editbook';
 
-dotenv.config()
+dotenv.config();
 
 function App() {
   const [currentMachine, sendToMachine] = useMachine(appMachine);
@@ -18,12 +19,9 @@ function App() {
         <BrowserRouter>
           <Header />
           <Switch>
-            <Route exact path="/">
-              <Booklist />
-            </Route>
-            <Route path="/addbooks">
-              <Addbook />
-            </Route>
+            <Route path="/" component={Booklist} exact />
+            <Route path="/addbooks" component={Addbook} exact />
+            <Route path="/editbook/:id" component={Editbook} exact />
           </Switch>
         </BrowserRouter>
       </div>

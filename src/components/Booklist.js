@@ -1,9 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import { MachineContext } from '../state/index';
 
-import { Delete } from './Deleteicon';
+import { Deleteicon } from './Deleteicon';
+import { Link } from 'react-router-dom';
 
-function Booklist({}) {
+function Booklist() {
   const [machine, sendToMachine] = useContext(MachineContext);
   const { books, error } = machine.context;
   const list = books.records;
@@ -16,7 +17,7 @@ function Booklist({}) {
   const removeBook = (id) => {
     sendToMachine('DELETE_BOOK', { id });
     // console.log('send delete machine', id)
-  }
+  };
 
   return (
     <>
@@ -55,7 +56,19 @@ function Booklist({}) {
                 {b.fields.Author}
                 {b.fields.Currency}
                 {b.fields.Category}
-                <Delete clickDelete={() => removeBook(b.id)} />
+                <Deleteicon clickDelete={() => removeBook(b.id)} />
+                <Link to={`/editbook/${b.id}`}>
+                  <span>
+                    <svg
+                      className="w-6 h-6"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                    </svg>
+                  </span>
+                </Link>
               </div>
             ))}
           </div>

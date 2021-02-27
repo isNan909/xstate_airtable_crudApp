@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Delete = ({ clickDelete }) => {
+const Deleteicon = ({ clickDelete }) => {
   return (
     <span onClick={clickDelete}>
       <svg
@@ -21,4 +21,4 @@ const Delete = ({ clickDelete }) => {
   );
 };
 
-export { Delete };
+export { Deleteicon };

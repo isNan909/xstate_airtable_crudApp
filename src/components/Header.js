@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function Header({}) {
+function Header() {
   return (
     <>
       <div className="lg:flex lg:items-center lg:justify-between mb-14">
