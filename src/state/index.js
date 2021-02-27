@@ -7,12 +7,11 @@ export const MachineContext = createContext();
 
 const fetchAllBooks = async () => {
   const res = await fetch(
-    'https://api.airtable.com/v0/appPI51O1H51vqeco/Books?maxRecords=3&view=Grid%20view',
+    process.env.REACT_APP_BASE_URL + 'Books?maxRecords=3&view=Grid%20view',
     {
       method: 'GET',
       headers: new Headers({
-        // API key should be confidential
-        Authorization: 'Bearer keyWR29lNpjiJJ2R0',
+        Authorization: process.env.REACT_APP_API_KEY,
         'Content-Type': 'application/json',
       }),
     }
@@ -32,12 +31,11 @@ const deleteBook = async (props) => {
   };
   console.log(formater);
   const res = await fetch(
-    'https://api.airtable.com/v0/appPI51O1H51vqeco/Books/recCP7qqKSmeGNdP3',
+    process.env.REACT_APP_BASE_URL + 'Books/recCP7qqKSmeGNdP3',
     {
       method: 'DELETE',
       headers: new Headers({
-        // API key should be confidential
-        Authorization: 'Bearer keyWR29lNpjiJJ2R0',
+        Authorization: process.env.REACT_APP_API_KEY,
         'Content-Type': 'application/json',
       }),
       body: JSON.stringify(formater),

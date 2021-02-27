@@ -10,12 +10,11 @@ const addTheBooks = async (_context, event) => {
     ],
   };
   const res = await fetch(
-    'https://api.airtable.com/v0/appPI51O1H51vqeco/Bookss',
+    process.env.REACT_APP_BASE_URL + 'Books',
     {
       method: 'POST',
       headers: new Headers({
-        // API key should be confidential
-        Authorization: 'Bearer keyWR29lNpjiJJ2R0',
+        Authorization: process.env.REACT_APP_API_KEY,
         'Content-Type': 'application/json',
       }),
       body: JSON.stringify(formater),

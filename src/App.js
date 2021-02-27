@@ -1,9 +1,13 @@
 import { useMachine } from '@xstate/react';
 import { appMachine, MachineContext } from './state';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
+import dotenv from 'dotenv'
 import Booklist from '././components/Booklist';
 import Addbook from '././components/Addbook';
 import Header from '././components/Header';
+
+dotenv.config()
 
 function App() {
   const [currentMachine, sendToMachine] = useMachine(appMachine);
