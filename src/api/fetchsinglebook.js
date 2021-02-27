@@ -1,6 +1,5 @@
 const fetchSingleBook = async (props) => {
   const { id } = props;
-  console.log(id + 'fetch single book api call');
   const res = await fetch(process.env.REACT_APP_BASE_URL + 'Books/' + id, {
     method: 'GET',
     headers: new Headers({

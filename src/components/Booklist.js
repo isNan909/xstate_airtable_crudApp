@@ -16,7 +16,6 @@ function Booklist() {
 
   const removeBook = (id) => {
     sendToMachine('DELETE_BOOK', { id });
-    // console.log('send delete machine', id)
   };
 
   return (

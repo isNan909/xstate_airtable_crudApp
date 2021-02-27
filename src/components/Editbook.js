@@ -9,6 +9,9 @@ function Editbook(route) {
 
   useEffect(() => {
     sendToMachine('FETCH_A_BOOK', { id });
+    const { books, error } = machine.context;
+    const list = books.records;
+    console.log(list);
     // eslint-disable-next-line
   }, []);
 
@@ -49,6 +52,21 @@ function Editbook(route) {
           </div>
         </div>
       </div>
+      {/* <section>
+        {list && list.length > 0 && (
+          <div>
+            {list.map((b) => (
+              <div key={b.id}>
+                {b.fields.Name}
+                {b.fields.Published}
+                {b.fields.Author}
+                {b.fields.Currency}
+                {b.fields.Category}
+              </div>
+            ))}
+          </div>
+        )}
+      </section> */}
     </div>
   );
 }
