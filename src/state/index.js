@@ -2,7 +2,7 @@ import { createContext } from 'react';
 import { assign, Machine } from 'xstate';
 import { addbookMachine } from './addbook';
 import { removebookMachine } from './removebook';
-import { fetchOneBookMachine } from './fetchsinglebook';
+import { fetchOneBookMachine } from './fetchsinglebook'
 
 import fetchAllBooks from '../api/fetchbooks';
 
@@ -15,7 +15,6 @@ export const appMachine = Machine({
     books: [],
     error: undefined,
     fields: '',
-    removeId: '',
   },
   states: {
     init: {},
@@ -60,6 +59,12 @@ export const appMachine = Machine({
       target: 'fetchOneBookMachine.fetching',
       actions: assign((_ctx, evt) => ({
         id: evt.id,
+      })),
+    },
+    EDIT_A_BOOK: {
+      target: 'fetchOneBookMachine.editing',
+      actions: assign((_ctx, evt) => ({
+        data: evt.data,
       })),
     },
   },
