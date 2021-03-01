@@ -1,7 +1,6 @@
 const editTheBook = async (_context, event) => {
   const { id } = event;
   const { Name, Author, Published, Currency, Category } = event.fields;
-  debugger
   const formater = {
     records: [
       {
@@ -10,6 +9,7 @@ const editTheBook = async (_context, event) => {
       },
     ],
   };
+
   const res = await fetch(process.env.REACT_APP_BASE_URL + 'Books', {
     method: 'PATCH',
     headers: new Headers({

@@ -28,6 +28,7 @@ function Editbook(route) {
   }, []);
 
   const handleOnChange = (userKey, value) => {
+    console.log('changed');
     setSeletedBook({ ...selectedBook, fields: { [userKey]: value } });
   };
 
@@ -165,7 +166,7 @@ function Editbook(route) {
                     value={selectedBook.fields.Category}
                     onChange={(e) => handleOnChange('Category', e.target.value)}
                   >
-                    select one
+                    {selectedBook.fields.Category}
                   </option>
                   <option>Psychology</option>
                   <option>Related</option>
