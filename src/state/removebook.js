@@ -4,7 +4,6 @@ import deleteBook from '../api/deletebook';
 const deletingBooks = (context, event) =>
   new Promise(async (resolve, reject) => {
     let result = await deleteBook(context, event);
-    console.log(result);
     if (result.status === 200) {
       resolve(result);
     } else {
