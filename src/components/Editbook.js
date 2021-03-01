@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { MachineContext } from '../state/index';
+import { useHistory } from "react-router-dom";
 
 import { Link } from 'react-router-dom';
 
@@ -17,6 +18,7 @@ function Editbook(route) {
     },
     createdTime: '',
   });
+  let history = useHistory();
 
   useEffect(() => {
     sendToMachine('FETCH_A_BOOK', { id });
@@ -34,6 +36,7 @@ function Editbook(route) {
 
   const editAbook = async () => {
     sendToMachine('EDIT_A_BOOK', selectedBook);
+    history.push("/");
   };
 
   return (
@@ -200,7 +203,6 @@ function Editbook(route) {
             </div>
           </form>
         </div>
-        <span></span>
       </section>
     </div>
   );
