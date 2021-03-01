@@ -7,7 +7,7 @@ const addingBook = (context, event) =>
     if (result.status === 200) {
       resolve(result);
     } else {
-      reject('employees');
+      reject('books');
     }
   });
 
@@ -19,7 +19,7 @@ export const addbookMachine = {
     adding: {
       invoke: {
         id: 'addingBook',
-        src: addingBook, 
+        src: addingBook,
         onDone: {
           target: 'success',
           actions: assign({ fields: (_context, event) => event.data }),

@@ -74,9 +74,13 @@ function Booklist() {
         )}
       </section>
       <div>
+        {machine.matches('list.failed') && (
+          <span>Data cannot be loaded {error.toString()}</span>
+        )}
+      </div>
+      <div>
         {machine.matches('removebookMachine.deleting') && (
           <span>
-            {' '}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -101,21 +105,16 @@ function Booklist() {
           </span>
         )}
       </div>
-      <div>
-        {machine.matches('list.failed') && (
-          <span>Data cannot be loaded {error.toString()}</span>
-        )}
-      </div>
-      <div>
         {machine.matches('removebookMachine.success') && (
-          <span>Deleted a book!</span>
+                  <div className="bg-green-200 px-2 py-2 text-green-800 mt-2 inline-flex">
+                  Your book has been removed!
+                </div>
         )}
-      </div>
-      <div>
         {machine.matches('removebookMachine.failed') && (
-          <span>Cannot deleted a book!</span>
+                    <div className="bg-green-200 px-2 py-2 text-green-800 mt-2 inline-flex">
+                    Your book has not been removed!
+                  </div>
         )}
-      </div>
     </>
   );
 }

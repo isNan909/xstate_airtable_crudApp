@@ -196,7 +196,7 @@ function Editbook(route) {
             <div className="inline-flex rounded-md shadow">
               <input
                 type="button"
-                value="Add My Book"
+                value="Edit My Book"
                 className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md bg-indigo-600 text-white hover:bg-indigo-700"
                 onClick={editAbook}
               ></input>

@@ -1,15 +1,16 @@
 import { assign } from 'xstate';
 import deleteBook from '../api/deletebook';
 
-const deletingBooks = (context, event) =>
+const deletingBooks = (context, event) => {
   new Promise(async (resolve, reject) => {
     let result = await deleteBook(context, event);
     if (result.status === 200) {
       resolve(result);
     } else {
-      reject('book');
+      reject(result);
     }
   });
+};
 
 export const removebookMachine = {
   id: 'removebook',
@@ -22,7 +23,7 @@ export const removebookMachine = {
         src: deletingBooks,
         onDone: {
           target: 'success',
-          actions: assign({ list: (_context, event) => event.data }),
+          actions: assign({ fields: (_context, event) => event.data }),
         },
         onError: {
           target: 'failed',

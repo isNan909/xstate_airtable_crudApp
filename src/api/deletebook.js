@@ -1,5 +1,4 @@
 const deleteBook = async (props) => {
-  console.log(props.id + 'delete api call here!!');
   const { id } = props;
   const formatter = {
     id: id,
