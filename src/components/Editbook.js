@@ -160,12 +160,11 @@ function Editbook(route) {
               </div>
 
               <div className="relative">
-                <select className="rounded border appearance-none border-gray-300 py-2 w-full placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10 sm:text-sm">
-                  <option
-                    default
-                    value={selectedBook.fields.Category}
-                    onChange={(e) => handleOnChange('Category', e.target.value)}
-                  >
+                <select
+                  onChange={(e) => handleOnChange('Category', e.target.value)}
+                  className="rounded border appearance-none border-gray-300 py-2 w-full placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10 sm:text-sm"
+                >
+                  <option default value={selectedBook.fields.Category}>
                     {selectedBook.fields.Category}
                   </option>
                   <option>Psychology</option>
