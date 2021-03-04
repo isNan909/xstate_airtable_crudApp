@@ -1,3 +1,4 @@
+// deleting a book 
 const deleteBook = async (props) => {
   const { id } = props;
   const formatter = {

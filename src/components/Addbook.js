@@ -33,7 +33,7 @@ function Addbook({}) {
             <div>
               <Link
                 to="/"
-                className="text-indigo-500 inline-flex items-center font-bold"
+                className="text-green-400 inline-flex items-center font-bold"
               >
                 <svg
                   className="w-6 h-6 mr-2"

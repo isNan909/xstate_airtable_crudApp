@@ -15,7 +15,7 @@ function App() {
 
   return (
     <MachineContext.Provider value={[currentMachine, sendToMachine]}>
-      <div className="App w-10/12 m-auto p-8">
+      <div className="App m-auto p-8 md:w-3/4">
         <BrowserRouter>
           <Header />
           <Switch>

@@ -2,7 +2,7 @@ import React from 'react';
 
 const Deleteicon = ({ clickDelete }) => {
   return (
-    <span onClick={clickDelete}>
+    <span className="cursor-pointer" onClick={clickDelete}>
       <svg
         className="w-6 h-6"
         fill="none"

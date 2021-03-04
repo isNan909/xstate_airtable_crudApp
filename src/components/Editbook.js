@@ -26,11 +26,9 @@ function Editbook(route) {
     const list = books.records;
     const filterObj = list.filter((list) => list.id === id);
     setSeletedBook(filterObj[0]);
-    // eslint-disable-next-line
   }, []);
 
   const handleOnChange = (userKey, value) => {
-    console.log('changed');
     setSeletedBook({ ...selectedBook, fields: { [userKey]: value } });
   };
 
@@ -47,7 +45,7 @@ function Editbook(route) {
             <div>
               <Link
                 to="/"
-                className="text-indigo-500 inline-flex items-center font-bold"
+                className="text-green-400 inline-flex items-center font-bold"
               >
                 <svg
                   className="w-6 h-6 mr-2"
