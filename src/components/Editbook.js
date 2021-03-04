@@ -26,6 +26,7 @@ function Editbook(route) {
     const list = books.records;
     const filterObj = list.filter((list) => list.id === id);
     setSeletedBook(filterObj[0]);
+        // eslint-disable-next-line
   }, []);
 
   const handleOnChange = (userKey, value) => {
